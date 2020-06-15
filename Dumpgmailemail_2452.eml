@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8"> <!-- utf-8 works for most cases -->
+
+  <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+
+  <title>Zomato Online Ordering Receipt</title> <!-- the <title> tag shows on email notifications on Android 4.4. -->
+
+  <style type="text/css">
+
+
+
+    /* ensure that clients don't add any padding or spaces around the email design and allow us to style emails for the entire width of the preview pane */
+
+    body,
+
+    #bodyTable {
+
+      height:100% !important;
+
+      width:100% !important;
+
+      margin:0;
+
+      padding:0;
+
+    }
+
+
+
+    /* Ensures Webkit- and Windows-based clients don't automatically resize the email text. */
+
+    body,
+
+    table,
+
+    td,
+
+    p,
+
+    a,
+
+    li,
+
+    blockquote {
+
+      -ms-text-size-adjust:100%;
+
+      -webkit-text-size-adjust:100%;
+
+    }
+
+
+
+    /* Forces Yahoo! to display emails at full width */
+
+    .thread-item.expanded .thread-body .body,
+
+    .msg-body {
+
+      width: 100% !important;
+
+      display: block !important;
+
+    }
+
+
+
+    /* Forces Hotmail to display emails at full width */
+
+    .ReadMsgBody,
+
+    .ExternalClass {
+
+      width: 100%;
+
+      background-color: #f4f4f4;
+
+    }
+
+
+
+    /* Forces Hotmail to display normal line spacing. */
+
+    .ExternalClass,
+
+    .ExternalClass p,
+
+    .ExternalClass span,
+
+    .ExternalClass font,
+
+    .ExternalClass td,
+
+    .ExternalClass div {
+
+      line-height:100%;
+
+    }
+
+
+
+    /* Resolves webkit padding issue. */
+
+    table {
+
+      border-spacing:0;
+
+    }
+
+
+
+    /* Resolves the Outlook 2007, 2010, and Gmail td padding issue, and removes spacing around tables that Outlook adds. */
+
+    table,
+
+    td {
+
+      border-collapse:collapse;
+
+      mso-table-lspace:0pt;
+
+      mso-table-rspace:0pt;
+
+    }
+
+
+
+    /* Corrects the way Internet Explorer renders resized images in emails. */
+
+    img {
+
+      -ms-interpolation-mode: bicubic;
+
+    }
+
+
+
+    /* Ensures images don't have borders or text-decorations applied to them by default. */
+
+    img,
+
+    a img {
+
+      border:0;
+
+      outline:none;
+
+      text-decoration:none;
+
+    }
+
+
+
+    /* Styles Yahoo's auto-sensing link color and border */
+
+    .yshortcuts a {
+
+      border-bottom: none !important;
+
+    }
+
+
+
+    /* Styles the tel URL scheme */
+
+    a[href^=tel],
+
+    .mobile_link,
+
+    .mobile_link a {
+
+      color:#222222 !important;
+
+      text-decoration: underline !Important;
+
+    }
+
+
+
+    .receipt-text {
+
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+
+      font-size: 14px;
+
+      line-height: 21px;
+
+    }
+
+
+
+    .message-text {
+
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+
+      font-size: 12px;
+
+      line-height: 17px;
+
+    }
+
+
+
+    .bill-text {
+
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+
+      font-size: 14px;
+
+      line-height: 30px;
+
+    }
+
+
+
+    .heading-text {
+
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+
+      font-size: 15px;
+
+      line-height: 24px;
+
+      text-transform: uppercase;
+
+    }
+
+
+
+    .smaller-text {
+
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+
+      font-size: 12px;
+
+      line-height: 17px;
+
+    }
+
+
+
+    .footer-text {
+
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+
+      font-size: 12px;
+
+      line-height: 18px;
+
+    }
+
+
+
+    .zdark {
+
+      color: #2d2d2a;
+
+    }
+
+
+
+    .zdhl5 {
+
+      color: #7d7d76;
+
+    }
+
+
+
+    .border-bottom {
+
+      border-bottom: 1pt solid #cbcbc8;
+
+    }
+
+
+
+    .pbot20 {
+
+      padding-bottom: 20px;
+
+    }
+
+
+
+    .pbot15 {
+
+      padding-bottom: 15px;
+
+    }
+
+
+
+    .pbot10 {
+
+      padding-bottom: 10px;
+
+    }
+
+
+
+    .ptop20 {
+
+      padding-top: 20px;
+
+    }
+
+
+
+    .ptop5 {
+
+      padding-top: 5px;
+
+    }
+
+
+
+    .pleft10 {
+
+      padding-left: 10px;
+
+    }
+
+
+
+    .ptop10 {
+
+      padding-top: 10px;
+
+    }
+
+
+
+    .ptop15 {
+
+      padding-top: 15px;
+
+    }
+
+
+
+    .pright10 {
+
+      padding-right: 10px;
+
+    }
+
+
+
+    .pbot10 {
+
+      padding-bottom: 10px;
+
+    }
+
+
+
+    .pl40 {
+
+      padding-left: 40px;
+
+    }
+
+
+
+    .pright40 {
+
+      padding-right: 40px;
+
+    }
+
+
+
+    .ta-left {
+
+      text-align: left;
+
+    }
+
+
+
+    .ta-right {
+
+      text-align: right;
+
+    }
+
+
+
+    .ta-center {
+
+      text-align: center;
+
+    }
+
+
+
+    .mtop25 {
+
+      margin-top: 25px;
+
+    }
+
+
+
+    .bold {
+
+      font-weight: bold;
+
+    }
+
+
+
+
+
+    /* Apple Mail doesn't support max-width, so we use media queries to constrain the email container width. */
+
+    @media only screen and (min-width: 601px) {
+
+      .email-container {
+
+        width: 600px !important;
+
+      }
+
+    }
+
+
+
+  </style>
+
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#f4f4f4" style="background-color:#f3f3f3;-webkit-text-size-adjust: none;-ms-text-size-adjust: none;height: 100% !important;width: 100% !important;">
+
+<table cellpadding="0" cellspacing="0" border="0" height="100%" width="100%" background="" id="bodyTable" style="font-family:Roboto,RobotoDraft,Helvetica,Arial,sans-serif;max-width:600px;border-collapse: collapse;table-layout: fixed;margin: 0 auto;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;padding: 0;height: 100% !important;width: 100% !important;">
+
+
+
+
+
+  <tr style="border-right: 5px 5px 0px 0px;background-size: cover;" >
+
+    <td valign="middle" align="left" style="border-radius: 5px 5px 0px 0px;padding: 30px;text-align: center;background-color: #B49E62;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+      <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+        <tr style="height: fit-content">
+
+          <td class="heading-text ta-left zdark" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 15px;font-weight: bold;text-transform: uppercase;color: black;text-align: left;">
+
+            <img src="https://b.zmtcdn.com/images/logo/zfb_new_logo.png" alt="Zomato for Business" width="110" align="center" border="0" style="margin: auto;text-align: center;-ms-interpolation-mode: bicubic;border: 0;outline: none;text-decoration: none;">
+
+          </td>
+
+          <td class="ta-left smaller-text zdhl5" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 15px;line-height: 17px;color: black;text-align: right;">
+
+            <span style="font-size:12px;font-weight:bold;color:#ffffff;">Restaurant ID: 18561828 </span>
+
+          </td>
+
+        </tr>
+
+      </table>
+
+    </td>
+
+  </tr>
+
+
+
+
+
+  <tr>
+
+
+
+    <td style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt; background: #fff; padding: 30px;">
+
+
+
+  <!-- Hidden Preheader Text : BEGIN -->
+
+  <div border="0" width="100%" align="left" style="font-size:14px;color:#53555a;max-width: 540px; margin: auto; -ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%; background: white" class="email-container">
+
+      </div>
+
+
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="max-width: 540px;margin: auto;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt; background: white" class="email-container">
+
+
+
+    <tr>
+
+      <td style="text-align: center;vertical-align: top;font-size: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+
+
+        
+
+        <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f6f6f6" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border: 5px solid #f6f6f6;">
+                    <tr>
+
+            <td valign="middle" style="padding: 10px 15px 20px 15px;background-color: white;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt; ">
+
+              <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 10px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+                <tr>
+
+                 <td style="width:30%;vertical-align: top;text-align: left;padding-bottom:5px;font-size: 15px;color: #61615c;">Customer Name:</td>
+
+                 <td style="text-align: left;font-size: 15px;color: #7d7d76;">Shubham Tyagi</td>
+
+               </tr>
+
+               <tr>
+
+                 <td style="width:30%;vertical-align: top;padding-bottom:5px;text-align: left;font-size: 15px;color: #61615c;">Contact No.:</td>
+
+                 <td style="text-align: left;font-size: 15px;color: #7d7d76;">TheContactNumberWasMentionedHere</td>
+
+               </tr>
+
+               <tr>
+
+                 <td style="width:30%;vertical-align:top;padding-bottom:5px;text-align: left;font-size: 15px;color: #61615c;">Customer Address:</td>
+
+                 <td style="text-align: left;font-size: 15px;color: #7d7d76;">CUSTOMER ADDRESS WAS MENTIONED HERE </td>
+
+               </tr>
+
+             </table>
+
+            </td>
+
+
+
+          </tr>
+
+                    <tr>
+
+            <td style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+
+
+              <table border="0" width="92%" cellpadding="0" cellspacing="0" bgcolor="#f6f6f6" style="margin-top: 20px;margin-left: 4%;margin-right: 4%;-ms-text-size-adjust: 100%;margin-bottom: 4%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+
+
+
+
+                <tr>
+
+                  <td>
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+                      <tr>
+
+                        <td class="heading-text ta-left zdark" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 15px;font-weight: bold;text-transform: none;color: black;text-align: left;">
+
+                          Order Summary
+
+                        </td>
+
+                        <td class="ta-left smaller-text zdhl5" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 15px;color: black;text-align: right;">
+
+                          3rd Dec 2019
+
+                        </td>
+
+                      </tr>
+
+                    </table>
+
+                  </td>
+
+                </tr>
+
+                <tr>
+
+                  <td class="ta-left zdhl5 pbot20 border-bottom" style="font-size: 15px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: black;border-bottom: 1pt solid #cbcbc8;padding-bottom: 20px;text-align: left;">
+
+                    Order ID: 1837253413
+
+                  </td>
+
+                </tr>
+
+
+
+                <tr>
+
+                  <td style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+                    <!-- Bill items : BEGIN -->
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="margin-top: 10px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+
+
+                      
+
+                      <tr class="border-bottom" style="border-bottom: 1pt solid #cbcbc8;">
+
+                        <td class="pbot10 bill-text zdark ta-left" valign="middle" width="60%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 19px;color: black;padding-bottom: 10px;text-align: left;">
+
+                          Kadhi Chawal with Masala Chaas <br>
+
+                                                  </td>
+
+                        <td class="pbot10 bill-text zdark ta-right" valign="middle" width="20%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 30px;color: #2d2d2a;padding-bottom: 10px;vertical-align: top;text-align: left;">
+
+                           <span style="font-size: 12px;">(1 x ₹139)</span>
+
+                        </td>
+
+                        <td class="pbot10 bill-text zdark ta-right" valign="middle" width="20%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 30px;color: #2d2d2a;padding-bottom: 10px;vertical-align: top;text-align: right;
+
+                          ">
+
+                          ₹139
+
+                        </td>
+
+                      </tr>
+
+                      
+
+                      
+
+                      
+
+                    </table>
+
+
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="margin-top: 10px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+                      
+
+                      <tr class="border-bottom" style="border-bottom: 1pt solid #cbcbc8;">
+
+                        <td class="pbot10 bill-text zdark ta-left" valign="middle" width="70%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 30px;color: #2d2d2a;padding-bottom: 10px;text-align: left;">
+
+                          Packaging Charge
+
+                        </td>
+
+                        <td class="pbot10 bill-text zdark ta-right" valign="middle" width="30%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 30px;color: #2d2d2a;padding-bottom: 10px;text-align: right;">
+
+                          ₹10
+
+                        </td>
+
+                      </tr>
+
+
+
+                      
+
+                    </table>
+
+
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="margin-top: 10px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+                      
+
+                    </table>
+
+                    <!-- Bill items : END -->
+
+                  </td>
+
+                </tr>
+
+
+
+                <tr>
+
+                  <td style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+
+
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-spacing: 0;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+
+                      <tr>
+
+                        <td class="receipt-text zdark ta-left pbot15" valign="middle" width="70%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 21px;color: #2d2d2a;padding-bottom: 15px;text-align: left;">
+
+                          Paid by : Prepaid
+
+                        </td>
+
+                        <td class="receipt-text zdark ta-right pbot15" valign="middle" width="30%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;font-size: 14px;line-height: 21px;color: #2d2d2a;padding-bottom: 15px;text-align: right;">
+                          ₹149
+
+                        </td>
+
+                      </tr>
+
+                    </table>
+
+
+
+                  </td>
+
+                </tr>
+
+
+
+                              </table>
+
+            </td>
+
+          </tr>
+
+        </table>
+
+        </td>
+
+    </tr>
+
+      </table>
+
+      <br/>
+
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt; background: #fff;">
+
+      <div border="0" width="100%" align="left" style="color:black; max-width: 600px; margin: auto;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%; background: white" class="email-container">
+
+        <div class="test-responsive small-d" style="display:inline-block;text-align:center;vertical-align:top;width:100%;word-break:keep-all!important;background:#32373D;border-radius: 0px 0px 6px 6px;">
+
+          <table align="center" class="" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;margin-left:30px;" cellspacing="10">
+
+            <tr style="padding:0;text-align:left;vertical-align:top">
+
+              <td class="wrapper-inner" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Roboto,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+
+                <table style="Margin:0 auto;background:#fff;background-color:#32373D;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:border-radius: 0px 0px 8px 8px;border-bottom:solid 0.7px rgba(236, 240, 244, 0.3);" align="center" class="container">
+
+                  <tbody>
+
+                  <tr style="padding:0;text-align:left;vertical-align:top">
+
+                    <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Roboto,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;text-align:left;vertical-align:top;word-wrap:break-word; padding-bottom: 16px; border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
+
+                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+
+                        <tbody>
+
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+
+                          <td height="16px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Roboto,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:16px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+
+                            &#xA0;</td>
+
+                        </tr>
+
+                        </tbody>
+
+                      </table>
+
+                      <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%;border-bottom:solid 0.7px rgba(236, 240, 244, 0.3);">
+
+                        <tbody>
+
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+
+                          <td  style="Margin:0 auto;color:#0a0a0a;font-family:Roboto,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:16px;text-align:left;width:564px">
+
+                            <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%;">
+
+                              <tr style="padding:0;text-align:left;vertical-align:top">
+
+                                <span style="font-size: 16px;font-weight: bold;color: #85878b;">Is there anything you need help with?</span>
+
+                                <p style="margin:0; margin-top: 5px;font-size: 12px;color: #85878b;">Please reply to this email at <strong><span style="color:#b49e62;">o2help@zomato.com</span></strong></p>
+
+                              </tr>
+
+                            </table>
+
+                          </td>
+
+                        </tr>
+
+                        </tbody>
+
+                      </table>
+
+                      <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+
+                        <tbody>
+
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+
+                          <td>
+
+                            <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%; margin-top:10px;">
+
+                              <tr style="padding:0;text-align:left;vertical-align:top">
+
+                                <td style="width:70px;Margin:0;color:#0a0a0a;font-family:Roboto,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
+
+                                  <table>
+
+                                    <tr>
+
+                                      <td><span style="color:#85878b;font-size:12px;font-weight:400;" data-parsed=""><a style="Margin:0;color:#ac9456;padding-right:5px !important;border-right: 1px solid #b49e62;font-family:Roboto,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none" href="{%.unsubscribe_link%}" class="float-center">Unsubscribe</a>
+
+                                                                                                </span>
+
+                                      </td>
+
+                                      <td><span style="color:#85878b;font-size:12px;font-weight:400;" data-parsed=""><a style="padding-right:5px!important;padding-left:5px!important;border-right: 1px solid #b49e62;Margin:0;color:#ac9456;font-family:Roboto,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none" href="http://trackemail2.zomato.com/wf/click?upn=L17p0RXEYxenAesHGuPCLpvhniQ5fDali-2FtMUNW6I4WTw6VyOP3Yd4tXxeVCW0j0_bWrQ8yYl-2BquIf17LrvVYSLabB6uUT1Nwxt1xht9sLVWy26rWCyuLnXYB77y9IkdOwmWrjKLCOaOAnGeo3yabUGEbVrH4O0fSjV4qi1UaUpCGmEkW1vGnQgFtozpyOxaJFllMz8H8doYEb7szaxp-2BfL5rRPvp-2BjNHiuvDA6R69wlO2Wcrd-2BBtFhmN0W8-2B3syJiuLIk1XX1rlTdvsewXQAdL2SK8Xp2yAvrqU759AW72iR8KdaOZ9-2FuKtlu4e2yzj4x-2FwGAP-2FNY3HWJ-2B49EsU2RA-3D-3D" align="center" class="float-center">
+
+                                                                                                Privacy</a></span>
+
+                                      </td>
+
+                                      <td><span style="color:#85878b;font-size:12px;font-weight:400;" data-parsed="">
+
+                                                                                                <a style="Margin:0;color:#ac9456;font-family:Roboto,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none" href="http://trackemail2.zomato.com/wf/click?upn=L17p0RXEYxenAesHGuPCLrZ6ImJ-2B-2Bmk8-2BUfrawte5aWLFzAOy5hntARAouZbY5Hi_bWrQ8yYl-2BquIf17LrvVYSLabB6uUT1Nwxt1xht9sLVWy26rWCyuLnXYB77y9IkdOwmWrjKLCOaOAnGeo3yabUF-2FM7oF-2BOlyoJE-2Fwuj-2BfcLVEIhMZWyhjxNVR2cG31vP04y7MmuiYMyH2-2FVUJ1XSOZt8735AvS9V9mndGSNPaGPQa80vwInTiD6qJXnPjbhCopa7KypCkDm4YdC74vft7fh9z-2FM-2BZxrlJnyg6VWeg0jZc3r3KRdgxOE4HyY-2FHAWzJPneYKOzHUM8aj3HwnKqiQQ-3D-3D" align="center" class="float-center">
+
+                                                                                                    Terms
+
+                                                                                                </a></span>
+
+                                      </td>
+
+                                    </tr>
+
+                                  </table>
+
+                                </td>
+
+                              </tr>
+
+                              <tr>
+
+                                <td>
+
+                                  <span style="font-size: 12px;color: #85878b;">Registered Office : Zomato Media Pvt. Ltd. &bull; 201, Jet Prime, Plot No 39B, Suren Road, Opposite Residency Hotel, Andheri East, Mumbai, Mumbai Suburban, Maharashtra, 400093 </span>
+
+                                </td>
+
+                              </tr>
+
+                            </table>
+
+                          </td>
+
+                        </tr>
+
+                        </tbody>
+
+                      </table>
+
+                    </td>
+
+                  </tr>
+
+                  </tbody>
+
+                </table>
+
+              </td>
+
+            </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </td>
+
+  </tr>
+
+  </table>
+
+
+<img src="http://trackemail2.zomato.com/wf/open?upn=bWrQ8yYl-2BquIf17LrvVYSLabB6uUT1Nwxt1xht9sLVWy26rWCyuLnXYB77y9IkdOwmWrjKLCOaOAnGeo3yabUBjydEOQYB9oOHMNs-2FKxgNkX1Aw06njGbZ0WUfUBeiHvEDDZfgGt2R0eoUh-2BNKlNptTuRQSBy2Ehuc0hyGOUUlioQnYYMr17A5XzgCcIKQGp6Qp9s-2FeHB7VCDY-2FSaB9O2UC6-2BHA1kezbLT0B9kars1SqGw0952wT9g3jlyAhsgrtu-2F9urz3ir1FJDJepT3C5yw-3D-3D" alt="" width="1" height="1" border="0" style="height:1px !important;width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;"/>
+</body>
+
+</html>
+
+
+
